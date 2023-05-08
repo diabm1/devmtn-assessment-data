@@ -227,6 +227,10 @@ module.exports = {
             ('Yemen'),
             ('Zambia'),
             ('Zimbabwe');
+
+            INSERT INTO cities (name, rating, country_id) VALUES ('City 1', 5, 1);
+            INSERT INTO cities (name, rating, country_id) VALUES ('City 2', 4, 2);
+            INSERT INTO cities (name, rating, country_id) VALUES ('City 3', 3, 3);
         `
       )
       .then(() => {
@@ -264,6 +268,7 @@ module.exports = {
         SELECT cities.city_id, cities.name AS city, cities.rating, countries.country_id, countries.name AS country
         FROM cities
         JOIN countries ON cities.country_id = countries.country_id
+        ORDER BY cities.rating DESC
         `
       )
       .then((dbRes) => {
