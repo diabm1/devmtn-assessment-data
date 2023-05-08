@@ -261,6 +261,22 @@ module.exports = {
       });
   },
 
+  getCountries: (req, res) => {
+    sequelize
+      .query(
+        `
+        SELECT * FROM countries
+        `
+      )
+      .then((dbRes) => {
+        res.status(200).send(dbRes[0]);
+      })
+      .catch((err) => {
+        console.log("Error fetching countries:", err);
+        res.status(500).send("Error fetching countries");
+      });
+  },
+
   getCities: (req, res) => {
     sequelize
       .query(
