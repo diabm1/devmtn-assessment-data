@@ -256,4 +256,43 @@ module.exports = {
         res.status(500).send("Error creating city");
       });
   },
+
+  getCities: (req, res) => {
+    sequelize
+      .query(
+        `
+        SELECT cities.city_id, cities.name AS city, cities.rating, countries.country_id, countries.name AS country
+        FROM cities
+        JOIN countries ON cities.country_id = countries.country_id
+        `
+      )
+      .then((dbRes) => {
+        res.status(200).send(dbRes[0]);
+      })
+      .catch((err) => {
+        console.log("Error fetching cities:", err);
+        res.status(500).send("Error fetching cities");
+      });
+  },
+
+  deleteCity: (req, res) => {
+    const { id } = req.params;
+
+    sequelize
+      .query(
+        `
+        DELETE FROM cities WHERE city_id = :id
+        `,
+        {
+          replacements: { id },
+        }
+      )
+      .then((dbRes) => {
+        res.status(200).send(dbRes[0]);
+      })
+      .catch((err) => {
+        console.log("Error deleting cities:", err);
+        res.status(500).send("Error deleting cities");
+      });
+  },
 };
